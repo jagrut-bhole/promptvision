@@ -1,0 +1,3 @@
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css"> : this line of code is telling the browser to load the "Inter" font from the internet and apply it to your webpage
+
+To link the pages we use make the pages folder in it and inside that folder we have the pages we want ex: Home.jsx, Register.jsx . Now we have to make idex.js and import that pages in that one and after importing it we export them. Now to import tha pages in App.jsx we directly import the pages from ./pages in one single line.
