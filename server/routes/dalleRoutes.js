@@ -1,37 +1,29 @@
-import express from "express";
+import express, { json } from "express";
 import * as dotenv from "dotenv";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import axios from "axios";
 
 dotenv.config();
 
 const router = express.Router();
 
-// Initialize Google Gemini
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const generateSeed = () => {
+  const seed = Math.floor(Math.random() * 1000000);
+  return seed
+}
 
-router.get("/", (req, res) => {
-  res.send("Hello from Google Gemini!");
-});
+router.post("/images", async (req, res)=>{
+  const prompt = req.body.prompt
 
-router.post("/", async (req, res) => {
-  try {
-    const { prompt } = req.body;
+  const randomSeed = generateSeed()
+  const imageUrl = await axios.get(`https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?seed=${randomSeed}&width=1024&height=1024&nologo=true`)
 
-    // Generate Image using Google Gemini
-    const model = genAI.getGenerativeModel({ model: "imagen-3.0-generate-002" });
-    const response = await model.generateContent(prompt);
-    const imageData = response.response.candidates[0].content.parts[0].inlineData;
+  const resImageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?seed=${randomSeed}&width=1024&height=1024&nologo=true`
 
-    if (!imageData) {
-      return res.status(500).json({ error: "Failed to generate image" });
-    }
+  res.json({
+    resImageUrl
+  })
+  
 
-    // Return base64 image
-    res.status(200).json({ photo: imageData.data });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: error.message || "Something went wrong" });
-  }
-});
-
+})
 export default router;
