@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -39,18 +38,19 @@ const CreatePost = () => {
             prompt: form.prompt,
           }),
         });
-
+  
         const data = await response.json();
-        setForm({ ...form, photo: `${data.resImageUrl}` });
+        setForm({ ...form, photo: data.resImageUrl }); // ✅ Corrected
       } catch (err) {
         alert(err);
       } finally {
         setGeneratingImg(false);
       }
     } else {
-      alert('Please provide proper prompt');
+      alert('Please provide a proper prompt');
     }
   };
+  
 
   const handleSubmit = async (e) => {
     // ensures that browser doesn't reload the application
