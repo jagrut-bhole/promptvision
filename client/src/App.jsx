@@ -1,18 +1,15 @@
-import React from "react";
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 
 import { logo } from "./assets";
-import { Home, CreatePost, LandingPage } from "./page"; // Ensure correct imports
+import { Home, CreatePost } from "./page"; // Ensure correct imports
 
 const App = () => (
   <BrowserRouter>
     <Routes>
-      {/* Route for LandingPage without navigation */}
-      <Route path="/home" element={<LandingPage />} />
 
       {/* Routes with navigation */}
       <Route
-        path="/"
+        path="/*"
         element={
           <>
             {/* Navigation Bar */}
