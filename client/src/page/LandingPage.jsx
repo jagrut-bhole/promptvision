@@ -132,14 +132,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { images1, images2, images3, images4, images5, images6, images7 } from "../assets";
-import { Swiper, SwiperSlide } from "swiper/react";
 
-import "swiper/css";
-import "swiper/css/effect-coverflow";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
-
-import { EffectCoverflow, Pagination, Navigation } from "swiper";
 
 const LandingPage = () => {
   const [isDarkMode, setIsDarkMode] = useState(true);
@@ -197,34 +190,6 @@ const LandingPage = () => {
             Start Creating Now
             <span className="ml-2">→</span>
           </button>
-        </div>
-
-        {/* Gallery Section */}
-        <div className="container">
-          <h1 className="heading">Slide Show</h1>
-          <Swiper
-            effect={"coverflow"}
-            grabCursor={true}
-            centeredSlides={true}
-            loop={true}
-            slidesPerView={"auto"}
-            coverflowEffect={{
-              rotate: 0,
-              stretch: 0,
-              depth: 100,
-              modifier: 2.5,
-            }}
-            pagination={{ clickable: true }}
-            navigation={true}
-            modules={[EffectCoverflow, Pagination, Navigation]}
-            className="swiper_container"
-          >
-            {slides.map((image, index) => (
-              <SwiperSlide key={index}>
-                <img src={image} alt={`slide-${index}`} />
-              </SwiperSlide>
-            ))}
-          </Swiper>
         </div>
       </main>
     </div>
