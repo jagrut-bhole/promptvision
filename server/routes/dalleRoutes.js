@@ -16,7 +16,7 @@ router.post("/images", async (req, res)=>{
   const prompt = req.body.prompt
 
   const randomSeed = generateSeed()
-  const imageUrl = await axios.get(`https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?seed=${randomSeed}&width=1024&height=1024&nologo=true`)
+  // const imageUrl = await axios.get(`https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?seed=${randomSeed}&width=1024&height=1024&nologo=true`)
 
   const resImageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?seed=${randomSeed}&width=1024&height=1024&nologo=true`
 
