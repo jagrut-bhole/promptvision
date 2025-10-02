@@ -4,5 +4,7 @@ import Footer from "./Footer";
 import Hero from "./Hero";
 import Banner from "./Banner";
 import HowItWorks from "./HowItWorks";
+import Gallery from './Gallery'
+import ProtectedRoute from './ProtectedRoute'
 
-export { Navbar, Features, Footer, Hero, Banner, HowItWorks };
+export {Gallery, Navbar, Features, Footer, Hero, Banner, HowItWorks, ProtectedRoute };

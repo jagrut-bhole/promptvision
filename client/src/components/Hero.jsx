@@ -135,10 +135,12 @@
 
 import React, { useEffect, useState } from "react";
 import { Button } from "./ui";
+import { useNavigate } from "react-router-dom";
 
 import { ArrowRight, Sparkles, Zap, Image } from "lucide-react";
 
 const Hero = () => {
+  const navigate = useNavigate();
   const [currentText, setCurrentText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -247,8 +249,8 @@ const Hero = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Button
               className="bg-[#008055] hover:bg-[#0A6647] active:bg-[#124E3B] text-white px-8 py-4 rounded-full text-lg transition-all duration-200 hover:scale-105 min-h-[56px]"
-              style={{ fontFamily: "Balto Book, Inter, sans-serif" }}
-            >
+              style={{ fontFamily: "Balto Book, Inter, sans-serif" }} 
+              onClick={() => navigate('/signin')}>
               Start Creating
               <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
@@ -257,6 +259,7 @@ const Hero = () => {
               variant="outline"
               className="border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-[#008055] hover:text-[#008055] px-8 py-4 rounded-lg text-lg transition-all duration-200 inline-flex items-center justify-center"
               style={{ fontFamily: "Balto Book, Inter, sans-serif" }}
+              onClick={() => navigate('/gallery')}
             >
               View Gallery
             </Button>

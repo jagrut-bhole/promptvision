@@ -2,8 +2,10 @@ import React from 'react';
 import { Button } from '../components/ui';
 import { ArrowRight } from 'lucide-react';
 import { BannerImage } from '../assets';
+import { useNavigate } from 'react-router-dom';
 
 const Banner = () => {
+  const navigate = useNavigate();
   return (
     // <section className="py-16 bg-white dark:bg-gray-900/80 overflow-hidden">
     <section className='py-16 overflow-hidden bg-gradient-to-b from-gray-50/50 to-white dark:from-gray-900 dark:to-gray-800'>
@@ -30,6 +32,7 @@ const Banner = () => {
               <div className="mb-8">
                 <Button 
                   className="bg-transparent border-2 border-gray-400/60 text-white hover:border-[#008055] hover:bg-[#008055]/10 px-8 py-4 rounded-2xl text-lg transition-all duration-300 min-h-[56px] backdrop-blur-sm font-normal" 
+                  onClick={() => navigate('signup')}
                   style={{ 
                     fontFamily: 'Balto Book, Inter, sans-serif',
                     borderRadius: '20px'
