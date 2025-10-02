@@ -113,18 +113,17 @@ const Footer = () => {
             </p>
 
             {/* Social Links */}
-            <div className="flex space-x-4">
+            {/* <div className="flex space-x-4">
               {socialLinks.map((social, index) => (
                 <a
                   key={index}
                   href={social.href}
                   className="w-10 h-10 bg-gray-800 hover:bg-[#008055] rounded-lg flex items-center justify-center transition-colors duration-200"
-                  aria-label={social.name}
-                >
+                  aria-label={social.name}>
                   <social.icon className="w-5 h-5" />
                 </a>
               ))}
-            </div>
+            </div> */}
           </div>
 
           {/* Footer Links */}
