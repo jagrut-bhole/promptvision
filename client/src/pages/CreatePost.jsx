@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { Button } from '../components/ui/button';
 import { Loader } from '../components/Loader';
 import { Navbar } from '../components/Navbar';
+import { AnimatedGroup } from '../components/ui/animated-group';
 import { useAuth } from '../hooks/useAuth';
 import axios from 'axios';
+import { Sparkles, Palette, Wand2 } from 'lucide-react';
 
 const CreatePost = () => {
   const [prompt, setPrompt] = useState('');
@@ -115,25 +117,36 @@ const CreatePost = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50">
+    <div className="min-h-screen bg-black relative overflow-hidden">
+      {/* Background gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900 to-black opacity-50"></div>
+      
       <Navbar />
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
-        <div className="bg-white rounded-2xl shadow-xl p-8">
+      
+      <div className="relative z-10 container mx-auto px-4 py-8 max-w-4xl">
+        <div className="bg-white/5 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-white/10">
           {/* Header */}
-          <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">
-              Create AI Art
+          <AnimatedGroup preset="blur-slide" className="text-center mb-8">
+            <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Sparkles className="w-8 h-8 text-white" />
+            </div>
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-2">
+              Create AI
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">
+                Art
+              </span>
             </h1>
-            <p className="text-gray-600">
+            <p className="text-xl text-white/80">
               Describe your vision and let AI bring it to life
             </p>
-          </div>
+          </AnimatedGroup>
 
           {/* Form Section */}
-          <div className="space-y-6 mb-8">
+          <AnimatedGroup preset="blur-slide" className="space-y-6 mb-8">
             {/* Prompt Input */}
             <div>
-              <label htmlFor="prompt" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="prompt" className="text-sm font-medium text-white/90 mb-2 flex items-center gap-2">
+                <Wand2 className="w-4 h-4" />
                 Describe your image
               </label>
               <textarea
@@ -141,24 +154,25 @@ const CreatePost = () => {
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
                 placeholder="A majestic mountain landscape at sunset with golden clouds..."
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none"
+                className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/20 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none text-white placeholder-white/50 transition-all duration-300 hover:bg-white/10"
                 rows={3}
               />
             </div>
 
             {/* Style Selection */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3">
+              <label className="text-sm font-medium text-white/90 mb-3 flex items-center gap-2">
+                <Palette className="w-4 h-4" />
                 Choose a style
               </label>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                 {styles.map((styleOption) => (
                   <label
                     key={styleOption.value}
-                    className={`relative flex items-center justify-center p-3 border-2 rounded-lg cursor-pointer transition-all ${
+                    className={`relative flex items-center justify-center p-3 border-2 rounded-lg cursor-pointer transition-all duration-300 group ${
                       style === styleOption.value
-                        ? 'border-purple-500 bg-purple-50 text-purple-700'
-                        : 'border-gray-200 hover:border-gray-300'
+                        ? 'border-purple-500 bg-purple-500/20 text-purple-300'
+                        : 'border-white/20 hover:border-white/40 bg-white/5 hover:bg-white/10 text-white/70 hover:text-white'
                     }`}
                   >
                     <input
@@ -170,6 +184,7 @@ const CreatePost = () => {
                       className="sr-only"
                     />
                     <span className="text-sm font-medium">{styleOption.label}</span>
+                    <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-purple-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </label>
                 ))}
               </div>
@@ -181,24 +196,28 @@ const CreatePost = () => {
                 onClick={handleGenerate}
                 disabled={isGenerateDisabled}
                 size="lg"
-                className="px-8 py-3 text-lg font-semibold"
+                className="px-8 py-3 text-lg font-semibold bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 disabled:opacity-50 transition-all duration-300 backdrop-blur-sm border border-white/20"
               >
                 {isGenerating ? 'Generating...' : 'Generate Image'}
               </Button>
             </div>
-          </div>
+          </AnimatedGroup>
 
           {/* Image Preview Section */}
-          <div className="space-y-6">
+          <AnimatedGroup preset="blur-slide" className="space-y-6">
             {(isGenerating || isImageLoading) && (
               <div className="flex justify-center">
-                <div className="bg-gradient-to-br from-purple-50 to-blue-50 rounded-lg p-12 w-full max-w-md border-2 border-purple-100">
-                  {/* <Loader variant="pulse" size="lg" /> */}
-                  <p className="text-center text-gray-700 mt-6 font-medium">
-                    Creating your masterpiece...
-                  </p>
-                  <div className="mt-4">
-                    <Loader variant="dots" />
+                <div className="bg-gradient-to-br from-purple-500/10 to-blue-500/10 backdrop-blur-sm rounded-2xl p-12 w-full max-w-md border-2 border-purple-500/20">
+                  <div className="text-center">
+                    <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
+                      <Sparkles className="w-8 h-8 text-white" />
+                    </div>
+                    <p className="text-white font-medium mb-4">
+                      Creating your masterpiece...
+                    </p>
+                    <div className="flex justify-center">
+                      <Loader variant="dots" />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -211,8 +230,8 @@ const CreatePost = () => {
                   <img
                     src={generatedImage}
                     alt="Generated artwork"
-                    className={`mx-auto rounded-lg shadow-lg max-w-full h-auto transition-opacity duration-500 ${
-                      isImageLoading ? 'opacity-0' : 'opacity-100'
+                    className={`mx-auto rounded-2xl shadow-2xl max-w-full h-auto transition-all duration-500 ${
+                      isImageLoading ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
                     }`}
                     style={{ maxHeight: '500px' }}
                     onLoad={handleImageLoad}
@@ -222,11 +241,11 @@ const CreatePost = () => {
 
                 {/* Action Buttons - Only show when image is fully loaded */}
                 {!isImageLoading && (
-                  <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                  <AnimatedGroup preset="blur-slide" className="flex flex-col sm:flex-row gap-3 justify-center">
                     <Button
                       onClick={handleGenerateAgain}
                       variant="outline"
-                      className="flex items-center gap-2"
+                      className="flex items-center gap-2 bg-white/5 backdrop-blur-sm border-white/20 text-white hover:bg-white/10 hover:border-white/30 transition-all duration-300"
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -237,7 +256,7 @@ const CreatePost = () => {
                     <Button
                       onClick={handleDownload}
                       variant="outline"
-                      className="flex items-center gap-2"
+                      className="flex items-center gap-2 bg-white/5 backdrop-blur-sm border-white/20 text-white hover:bg-white/10 hover:border-white/30 transition-all duration-300"
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -248,7 +267,7 @@ const CreatePost = () => {
                     <Button
                       onClick={handleShare}
                       disabled={isSharing}
-                      className="flex items-center gap-2 bg-green-600 hover:bg-green-700"
+                      className="flex items-center gap-2 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 transition-all duration-300 backdrop-blur-sm border border-white/20"
                     >
                       {isSharing ? (
                         <>
@@ -264,11 +283,11 @@ const CreatePost = () => {
                         </>
                       )}
                     </Button>
-                  </div>
+                  </AnimatedGroup>
                 )}
               </div>
             )}
-          </div>
+          </AnimatedGroup>
         </div>
       </div>
     </div>

@@ -154,7 +154,7 @@ function Footer() {
         <div className="pt-8 border-t border-white/10">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="text-white/70 text-sm">
-              © {currentYear} #tailark. All rights reserved.
+              © {currentYear} PromptVision. All rights reserved.
             </div>
             <div className="flex flex-wrap justify-center gap-6 text-sm">
               {footerLinks.legal.map((link, index) => (

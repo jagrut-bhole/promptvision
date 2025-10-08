@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "../components/ui/button";
+import { Loader } from "../components/Loader";
+import { AnimatedGroup } from "../components/ui/animated-group";
 import axios from "axios";
 import { useAuth } from "../hooks/useAuth";
-import { ImageIcon, Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, User, Mail, Lock, ArrowRight, Sparkles } from "lucide-react";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -70,189 +72,177 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
+    <div className="min-h-screen bg-black relative overflow-hidden flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      {/* Background gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900 to-black opacity-50"></div>
+      
+      <div className="relative z-10 max-w-md w-full space-y-8">
         {/* Header */}
-        <div className="text-center">
-          <div className="flex justify-center">
-            <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
-              <ImageIcon className="w-6 h-6 text-white" />
-            </div>
+        <AnimatedGroup preset="blur-slide" className="text-center">
+          <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+            <Sparkles className="w-8 h-8 text-white" />
           </div>
-          <h2 className="mt-6 text-3xl font-bold text-gray-900">
-            Create your account
+          <h2 className="text-4xl font-bold text-white mb-2">
+            Create Your
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">
+              Account
+            </span>
           </h2>
-          <p className="mt-2 text-sm text-gray-600">
+          <p className="text-white/80">
             Join our community of AI artists
           </p>
-        </div>
+        </AnimatedGroup>
 
         {/* Form */}
-        <div className="bg-white py-8 px-6 shadow-xl rounded-2xl">
-          <form className="space-y-6" onSubmit={handleSubmit}>
-            {error && (
-              <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-                <p className="text-red-600 text-sm">{error}</p>
-              </div>
-            )}
+        <AnimatedGroup preset="blur-slide">
+          <div className="bg-white/5 backdrop-blur-sm py-8 px-6 shadow-2xl rounded-2xl border border-white/10">
+            <form className="space-y-6" onSubmit={handleSubmit}>
+              {error && (
+                <div className="bg-red-500/10 backdrop-blur-sm border border-red-500/20 rounded-lg p-4">
+                  <p className="text-red-400 text-sm">{error}</p>
+                </div>
+              )}
 
-            <div>
-              <label
-                htmlFor="fullName"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
-                Full Name
-              </label>
-              <input
-                id="fullName"
-                name="fullName"
-                type="text"
-                autoComplete="name"
-                required
-                value={formData.fullName}
-                onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                placeholder="Enter your full name"
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="username"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
-                Username
-              </label>
-              <input
-                id="username"
-                name="username"
-                type="text"
-                autoComplete="username"
-                required
-                value={formData.username}
-                onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                placeholder="Choose a username"
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
-                Email address
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                placeholder="Enter your email"
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
-                Password
-              </label>
-              <div className="relative">
-                <input
-                  id="password"
-                  name="password"
-                  type={showPassword ? "text" : "password"}
-                  autoComplete="new-password"
-                  required
-                  value={formData.password}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                  placeholder="Create a password"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
+              <div>
+                <label
+                  htmlFor="fullName"
+                  className="text-sm font-medium text-white/90 mb-2 flex items-center gap-2"
                 >
-                  {showPassword ? (
-                    <EyeOff className="h-5 w-5 text-gray-400" />
-                  ) : (
-                    <Eye className="h-5 w-5 text-gray-400" />
-                  )}
-                </button>
-              </div>
-            </div>
-
-            {/* <div>
-              <label
-                htmlFor="confirmPassword"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
-                Confirm Password
-              </label>
-              <div className="relative">
+                  <User className="w-4 h-4" />
+                  Full Name
+                </label>
                 <input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type={showConfirmPassword ? "text" : "password"}
-                  autoComplete="new-password"
+                  id="fullName"
+                  name="fullName"
+                  type="text"
+                  autoComplete="name"
                   required
-                  value={formData.confirmPassword}
+                  value={formData.fullName}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                  placeholder="Confirm your password"
+                  className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/20 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-white placeholder-white/50 transition-all duration-300 hover:bg-white/10"
+                  placeholder="Enter your full name"
                 />
-                <button
-                  type="button"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                >
-                  {showConfirmPassword ? (
-                    <EyeOff className="h-5 w-5 text-gray-400" />
-                  ) : (
-                    <Eye className="h-5 w-5 text-gray-400" />
-                  )}
-                </button>
               </div>
-            </div> */}
 
-            <Button
-              type="submit"
-              disabled={loading}
-              className="w-full py-3 text-lg font-semibold"
-            >
-              {loading ? "Creating account..." : "Create account"}
-            </Button>
-          </form>
+              <div>
+                <label
+                  htmlFor="username"
+                  className="text-sm font-medium text-white/90 mb-2 flex items-center gap-2"
+                >
+                  <User className="w-4 h-4" />
+                  Username
+                </label>
+                <input
+                  id="username"
+                  name="username"
+                  type="text"
+                  autoComplete="username"
+                  required
+                  value={formData.username}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/20 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-white placeholder-white/50 transition-all duration-300 hover:bg-white/10"
+                  placeholder="Choose a username"
+                />
+              </div>
 
-          <div className="mt-6 text-center">
-            <p className="text-sm text-gray-600">
-              Already have an account?{" "}
-              <Link
-                to="/login"
-                className="font-medium text-purple-600 hover:text-purple-500 transition-colors"
+              <div>
+                <label
+                  htmlFor="email"
+                  className="text-sm font-medium text-white/90 mb-2 flex items-center gap-2"
+                >
+                  <Mail className="w-4 h-4" />
+                  Email address
+                </label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  required
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/20 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-white placeholder-white/50 transition-all duration-300 hover:bg-white/10"
+                  placeholder="Enter your email"
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="password"
+                  className="text-sm font-medium text-white/90 mb-2 flex items-center gap-2"
+                >
+                  <Lock className="w-4 h-4" />
+                  Password
+                </label>
+                <div className="relative">
+                  <input
+                    id="password"
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    autoComplete="new-password"
+                    required
+                    value={formData.password}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 pr-12 bg-white/5 backdrop-blur-sm border border-white/20 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-white placeholder-white/50 transition-all duration-300 hover:bg-white/10"
+                    placeholder="Create a password"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-5 w-5 text-white/50 hover:text-white/80 transition-colors" />
+                    ) : (
+                      <Eye className="h-5 w-5 text-white/50 hover:text-white/80 transition-colors" />
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              <Button
+                type="submit"
+                disabled={loading}
+                className="w-full py-3 text-lg font-semibold bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 disabled:opacity-50 transition-all duration-300 backdrop-blur-sm border border-white/20"
               >
-                Sign in here
-              </Link>
-            </p>
+                {loading ? (
+                  <>
+                    <Loader size="sm" />
+                    <span className="ml-2">Creating account...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Create account</span>
+                    <ArrowRight className="w-5 h-5 ml-2" />
+                  </>
+                )}
+              </Button>
+            </form>
+
+            <div className="mt-6 text-center">
+              <p className="text-sm text-white/70">
+                Already have an account?{" "}
+                <Link
+                  to="/login"
+                  className="font-medium text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400 hover:from-purple-300 hover:to-blue-300 transition-all duration-300"
+                >
+                  Sign in here
+                </Link>
+              </p>
+            </div>
           </div>
-        </div>
+        </AnimatedGroup>
 
         {/* Back to Home */}
-        <div className="text-center">
+        <AnimatedGroup preset="blur-slide" className="text-center">
           <Link
             to="/"
-            className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
+            className="text-sm text-white/70 hover:text-white transition-colors flex items-center justify-center gap-2"
           >
-            ← Back to home
+            <ArrowRight className="w-4 h-4 rotate-180" />
+            Back to home
           </Link>
-        </div>
+        </AnimatedGroup>
       </div>
     </div>
   );
