@@ -19,7 +19,7 @@ const Home = () => {
     try {
       setError(null);
       const response = await axios.get(
-        'http://localhost:8000/api/images',
+        'https://promptvision.onrender.com/api/images',
         {
           headers: {
             'Content-Type': 'application/json',

@@ -43,7 +43,7 @@ const Register = () => {
     try {
       const { confirmPassword: _, ...userData } = formData;
       const response = await axios.post(
-        "http://localhost:8000/api/auth/register",
+        "https://promptvision.onrender.com/api/auth/register",
         userData,
         {
           headers: {

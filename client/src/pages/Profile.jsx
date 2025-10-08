@@ -24,7 +24,7 @@ const Profile = () => {
       }
       
       const response = await axios.get(
-        `http://localhost:8000/api/images/user/${user._id}`,
+        `https://promptvision.onrender.com/api/images/user/${user._id}`,
         {
           headers: {
             'Authorization': `Bearer ${auth.accessToken}`,
@@ -52,7 +52,7 @@ const Profile = () => {
   const handleLogout = async () => {
     try {
       await axios.post(
-        'http://localhost:8000/api/auth/logout',
+        'https://promptvision.onrender.com/api/auth/logout',
         {},
         {
           headers: {

@@ -32,7 +32,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/auth/login",
+        "https://promptvision.onrender.com/api/auth/login",
         formData,
         {
           headers: {

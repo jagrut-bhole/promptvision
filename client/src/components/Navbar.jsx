@@ -15,7 +15,7 @@ const Navbar = () => {
   const handleLogout = async () => {
     try {
       await axios.post(
-        'http://localhost:8000/api/auth/logout',
+        'https://promptvision.onrender.com/api/auth/logout',
         {},
         {
           headers: {
