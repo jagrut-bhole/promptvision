@@ -3,6 +3,7 @@ import { ArrowRight, Sparkles,ImageIcon, Menu, X } from 'lucide-react'
 import { Button } from '../components/ui/button'
 import { AnimatedGroup } from '../components/ui/animated-group'
 import { cn } from '../lib/utils'
+import { Link } from 'react-router-dom'
 
 const UnicornStudio = window.UnicornStudio;
 
@@ -154,9 +155,9 @@ export function HeroSection() {
                                         asChild
                                         size="lg"
                                         className="rounded-xl px-5 text-base bg-white text-black hover:bg-white/90">
-                                        <a href="#link">
-                                            <span className="text-nowrap">Start Building</span>
-                                        </a>
+                                        <Link to="/register">
+                                            <span className="text-nowrap">Get Started</span>
+                                        </Link>
                                     </Button>
                                 </div>
                                 <Button
@@ -165,9 +166,9 @@ export function HeroSection() {
                                     size="lg"
                                     variant="ghost"
                                     className="h-10.5 rounded-xl px-5 text-white border border-white/20 hover:bg-white/10">
-                                    <a href="#link">
-                                        <span className="text-nowrap">See a demo</span>
-                                    </a>
+                                    <Link to="/login">
+                                        <span className="text-nowrap">Sign In</span>
+                                    </Link>
                                 </Button>
                             </AnimatedGroup>
                         </div>

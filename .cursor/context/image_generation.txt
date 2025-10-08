@@ -1,0 +1,76 @@
+💬 Cursor Context — AI Image Generation Website:
+This project is an AI-powered image generation and sharing web app built with React.js (TailwindCSS) on the frontend and Node.js + Express + MongoDB on the backend.
+The core feature is AI image generation from user prompts, with community sharing and user profiles.
+
+🧠 Flow Summary
+1.User authenticates (register/login) — JWT-based.
+2. After login, the user lands on the Home / Community page, where:
+    a.All shared images are displayed in a grid layout.
+    b.On hover, each image shows the username and prompt.
+3.User navigates to Create Post:
+    a.Enters a prompt (text input).
+    b.Selects style (radio buttons).
+    c.Generate button is disabled until both are set.
+4.When the user clicks Generate:
+    a.A loading animation appears only in the image preview div.
+    b.Backend API /api/images/generate is called with prompt + style.
+    c.After generation, the image is displayed below the button.
+5.After an image is generated, show three buttons:
+    a.Generate Again → re-run generation flow.
+    b.Download Image → saves locally.
+    c.Share with Community → sends image URL + prompt + style to backend.
+6.Backend saves the image data:
+    a.Adds entry in Image Model: => imageUrl, prompt, style, createdBy, createdAt.
+    b.Updates User Model to include reference to that image.
+7.Shared images appear:
+    a.On the Home/Community Page (all images).
+    b.On the User Profile Page (only the user’s own images).
+
+⚙️ Backend Details
+1.Framework: Node.js + Express.js
+2.Database: MongoDB (Mongoose)
+3.Models:
+    a.User: { name, email, password, images: [ObjectId], createdAt }
+    b.Image: { imageUrl, prompt, style, createdBy, createdAt }
+4.Routes:
+    a.POST /api/auth/register — create account
+    b.POST /api/auth/login — login, return JWT
+    c.POST /api/images/generate — AI image generation (calls external API)
+    d.POST /api/images/share — save image to DB
+    e.GET /api/images — fetch all shared images (community feed)
+    f.GET /api/users/:id/images — fetch user’s shared images
+
+🎨 Frontend Details
+1.Framework: React.js + TailwindCSS
+2.Pages:
+    a.Home.jsx: shows community images with hover info.
+    b.CreatePost.jsx: prompt input, style selector, generation + preview UI.
+    c.Profile.jsx: shows the user’s own shared images.
+3.States:
+    a.Manage loading, generatedImage, prompt, style.
+    b.Buttons update dynamically (disabled / enabled states).
+4.Components:
+    a.Navbar.jsx, ImageCard.jsx, Loader.jsx, ButtonGroup.jsx
+5.Routing: React Router DOM
+6.State Management: Context API or Zustand
+
+🔁 Flow Logic:
+    =>User logs in → JWT stored (localStorage or HttpOnly cookie).
+    =>User generates image → frontend calls /api/images/generate.
+    =>Image displayed → user can download or share.
+    =>On “Share with Community” → POST /api/images/share → DB updated.
+    =>Home + Profile fetch updated data automatically (via useEffect).
+
+🧩 Behaviors:
+    =>Generate button only enabled after valid input.
+    =>Loading animation appears inside preview div, not entire page.
+    =>Hover overlay shows prompt and username.
+    =>Responsive layout using Tailwind grid.
+    =>Auth required for all actions except login/register.
+
+🧱 Future Enhancements:
+    =>Add like/comment system on images.
+    =>Follow users.
+    =>Search / filter community feed.
+    =>Add OAuth (Google/GitHub).
+    =>Infinite scroll on community page.
