@@ -63,17 +63,17 @@ Create a `.env` file in the `server` directory with the following variables:
 
 ```env
 # Server Configuration
-PORT=3000
+PORT=8000
 CORS_ORIGIN=http://localhost:5173
 
 # Database Configuration
-MONGODB_URI=mongodb://localhost:27017/imagegen
+MONGODB_URI=<Your DataBase Link>
 
 # JWT Configuration
 ACCESS_TOKEN_SECRET=your_access_token_secret_key_here_make_it_very_long_and_secure
 REFRESH_TOKEN_SECRET=your_refresh_token_secret_key_here_make_it_very_long_and_secure
-ACCESS_TOKEN_EXPIRY=15m
-REFRESH_TOKEN_EXPIRY=7d
+ACCESS_TOKEN_EXPIRY=expiry_should_be_short_term
+REFRESH_TOKEN_EXPIRY=expiry_should_be_long_term
 ```
 
 ### 4. Start MongoDB
@@ -81,12 +81,7 @@ Make sure MongoDB is running on your system.
 
 ### 5. Start the Application
 
-#### Option 1: Use the batch file (Windows)
-```bash
-start-dev.bat
-```
-
-#### Option 2: Start manually
+#### Start manually
 
 Terminal 1 (Backend):
 ```bash
@@ -102,7 +97,7 @@ npm run dev
 
 ### 6. Access the Application
 - Frontend: http://localhost:5173
-- Backend API: http://localhost:3000
+- Backend API: http://localhost:8000
 
 ## API Endpoints
 
@@ -151,7 +146,3 @@ ImageGen/
 2. Create a feature branch
 3. Make your changes
 4. Submit a pull request
-
-## License
-
-This project is licensed under the ISC License.
