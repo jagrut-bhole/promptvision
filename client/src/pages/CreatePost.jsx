@@ -51,8 +51,8 @@ export const CreatePost = () => {
 
     try {
       const response = await axios.post(
-        // 'https://promptvision.onrender.com/api/images/generate',
-        "http://localhost:8000/api/images/generate",
+        'https://promptvision.onrender.com/api/images/generate',
+        // "http://localhost:8000/api/images/generate",
         { prompt, style },
         {
           headers: {
@@ -132,8 +132,8 @@ export const CreatePost = () => {
     setIsSharing(true);
     try {
       await axios.post(
-        // 'https://promptvision.onrender.com/api/images/share',
-        "http://localhost:8000/api/images/share",
+        'https://promptvision.onrender.com/api/images/share',
+        // "http://localhost:8000/api/images/share",
         {
           imageUrl: generatedImage,
           prompt,

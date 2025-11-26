@@ -26,8 +26,8 @@ export const Profile = () => {
       }
 
       const response = await axios.get(
-        // `https://promptvision.onrender.com/api/images/user/${user._id}`,
-        `http://localhost:8000/api/images/user/${user._id}`,
+        `https://promptvision.onrender.com/api/images/user/${user._id}`,
+        // `http://localhost:8000/api/images/user/${user._id}`,
         {
           headers: {
             Authorization: `Bearer ${auth.accessToken}`,

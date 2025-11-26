@@ -1,4 +1,4 @@
-import { Palette, Download, Zap, Sparkles,Image } from "lucide-react";
+import { Palette, Download, Zap, Sparkles, Image } from "lucide-react";
 import { GlowingEffect } from "./ui/glowing-effect";
 import { cn } from "../lib/utils";
 
@@ -52,6 +52,7 @@ const GridItem = ({ area, icon, title, description }) => {
           proximity={64}
           inactiveZone={0.01}
           borderWidth={3}
+          movementDuration={0.5}
         />
         <div className="relative text-white bg-black flex h-full flex-col justify-between gap-6 overflow-hidden rounded-xl border-[0.75px] bg-background p-6 shadow-sm dark:shadow-[0px_0px_27px_0px_rgba(45,45,45,0.3)] md:p-6">
           <div className="relative flex flex-1 flex-col justify-between gap-3">

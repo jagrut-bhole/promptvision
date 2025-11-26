@@ -28,8 +28,8 @@ const Navbar = () => {
   const handleLogout = async () => {
     try {
       await axios.post(
-        // 'https://promptvision.onrender.com/api/auth/logout',\
-        'http://localhost:8000/api/auth/logout',
+        'https://promptvision.onrender.com/api/auth/logout',
+        // 'http://localhost:8000/api/auth/logout',
         {},
         {
           headers: {

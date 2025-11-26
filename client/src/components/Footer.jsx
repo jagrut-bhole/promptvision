@@ -1,5 +1,5 @@
 import React from "react";
-import { Twitter, Github } from "lucide-react";
+import { Twitter, Github, Instagram } from "lucide-react";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -22,6 +22,7 @@ export function Footer() {
   const socialLinks = [
     { icon: <Twitter className="w-5 h-5" />, href: "https://x.com/JagrutBhol2820", label: "Twitter" },
     { icon: <Github className="w-5 h-5" />, href: "https://github.com/jagrut-bhole", label: "GitHub" },
+    { icon: <Instagram className="w-5 h-5" />, href: "https://instagram.com/jagrutbhole", label: "GitHub" },
   ];
 
   return (
