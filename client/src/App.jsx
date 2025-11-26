@@ -1,6 +1,9 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Landing, CreatePost, Home, Profile, Login, Register } from "./pages";
+import { CreatePost, Home, Profile, Login, Register,Landing } from "./pages";
+
+// Testing route
+import { Image } from "./pages/Image.jsx";
 
 //middleware:
 import { AuthProvider } from "./contexts/AuthContext.jsx";
@@ -11,6 +14,9 @@ function App() {
     <Router>
       <AuthProvider>
         <Routes>
+          {/* Testing Routes */}
+          <Route path="/test" element={<Image/>}/>
+
           {/* Public routes */}
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
