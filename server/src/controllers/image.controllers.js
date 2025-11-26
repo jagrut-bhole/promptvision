@@ -15,9 +15,13 @@ const generateImage = asyncHandler(async (req, res) => {
     throw new apiError("Please Provide the Prompt!!");
   }
 
+  const model = 'flux';
+
   const seed = randomSeed();
 
-  const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?seed=${seed}&width=1024&height=1024&nologo=true`;
+  const imageUrl = `https://pollinations.ai/p/${encodeURIComponent(prompt)}?seed=${seed}&width=1024&height=1024&model=${model}&nologo=true`;
+
+  console.log("Image URL: ",imageUrl);
 
   return res
     .status(200)

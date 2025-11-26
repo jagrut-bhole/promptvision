@@ -1,21 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Button } from './ui/button';
 import { AnimatedGroup } from './ui/animated-group';
+import { Button } from './ui/button';
 import { useAuth } from '../hooks/useAuth';
 import axios from 'axios';
-import { ImageIcon, Menu, X, User, LogOut, Home, Plus, Users, Sparkles } from 'lucide-react';
+import { Menu, X, User, LogOut, Home, Plus, ChevronDown } from 'lucide-react';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const location = useLocation();
   const { auth, logout: authLogout } = useAuth();
   const user = auth.user;
+  const userMenuRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+        setIsUserMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const handleLogout = async () => {
     try {
       await axios.post(
-        'https://promptvision.onrender.com/api/auth/logout',
+        // 'https://promptvision.onrender.com/api/auth/logout',\
+        'http://localhost:8000/api/auth/logout',
         {},
         {
           headers: {
@@ -41,16 +55,13 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="bg-black/80 backdrop-blur-sm border-b border-white/10 sticky top-0 z-50">
+    <nav className="bg-black/80 backdrop-blur-sm border-b border-white/10 sticky mb-2 p-2 top-0 z-50">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <AnimatedGroup preset="blur-slide">
             <Link to="/home" className="flex items-center space-x-2 group">
-              <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                <Sparkles className="w-4 h-4 text-white" />
-              </div>
-              <span className="text-xl font-bold text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-purple-400 group-hover:to-blue-400 transition-all duration-300">
+              <span className="text-xl font-bold text-white transition-all duration-300">
                 PromptVision
               </span>
             </Link>
@@ -79,28 +90,44 @@ const Navbar = () => {
 
           {/* User Menu */}
           <AnimatedGroup preset="blur-slide" className="hidden md:flex items-center space-x-4">
-            <div className="flex items-center gap-3 group">
-              <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                <span className="text-white text-sm font-semibold">
-                  {user.fullName?.charAt(0).toUpperCase() || user.username?.charAt(0).toUpperCase() || 'U'}
-                </span>
-              </div>
-              <div className="text-sm">
-                <p className="font-medium text-white">
-                  {user.fullName || user.username || 'User'}
-                </p>
-                <p className="text-white/50">@{user.username || 'user'}</p>
-              </div>
+            <div className="relative" ref={userMenuRef}>
+              <Button 
+                variant="ghost" 
+                className="h-auto p-0 hover:bg-transparent"
+                onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+              >
+                <img
+                  className="rounded-full"
+                  src={`https://api.dicebear.com/7.x/initials/svg?seed=${user.email || 'user'}`}
+                  alt="Profile"
+                  width={40}
+                  height={40}
+                  aria-hidden="true"
+                />
+                <ChevronDown 
+                  size={16} 
+                  strokeWidth={2} 
+                  className={`ms-2 text-amber-50 opacity-60 transition-transform duration-300 ${isUserMenuOpen ? 'rotate-180' : ''}`}
+                  aria-hidden="true" 
+                />
+              </Button>
+
+              {/* Dropdown Menu */}
+              {isUserMenuOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-black/90 backdrop-blur-sm border border-white/20 rounded-lg shadow-xl overflow-hidden">
+                  <button
+                    onClick={() => {
+                      handleLogout();
+                      setIsUserMenuOpen(false);
+                    }}
+                    className="w-full flex items-center gap-3 px-4 py-3 text-red-400 hover:bg-red-500/10 transition-all duration-300"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    <span>Logout</span>
+                  </button>
+                </div>
+              )}
             </div>
-            <Button
-              onClick={handleLogout}
-              variant="outline"
-              size="sm"
-              className="flex items-center gap-2 text-red-400 border-red-400/20 hover:bg-red-500/10 hover:border-red-400/40 transition-all duration-300 backdrop-blur-sm"
-            >
-              <LogOut className="w-4 h-4" />
-              <span>Logout</span>
-            </Button>
           </AnimatedGroup>
 
           {/* Mobile Menu Button */}
@@ -137,16 +164,10 @@ const Navbar = () => {
               
               <div className="border-t border-white/10 pt-4 mt-4">
                 <div className="flex items-center gap-3 px-4 py-3">
-                  <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full flex items-center justify-center">
-                    <span className="text-white font-semibold">
-                      {user.fullName?.charAt(0).toUpperCase() || user.username?.charAt(0).toUpperCase() || 'U'}
-                    </span>
-                  </div>
                   <div className="flex-1">
                     <p className="font-medium text-white">
-                      {user.fullName || user.username || 'User'}
+                      {user.email || 'user@email.com'}
                     </p>
-                    <p className="text-sm text-white/50">@{user.username || 'user'}</p>
                   </div>
                 </div>
                 <button

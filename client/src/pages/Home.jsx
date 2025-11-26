@@ -1,37 +1,39 @@
-import React, { useState, useEffect } from 'react';
-import { ImageCard } from '../components/ImageCard';
-import { Loader } from '../components/Loader';
-import { Navbar } from '../components/Navbar';
-import { AnimatedGroup } from '../components/ui/animated-group';
-import { useAuth } from '../hooks/useAuth';
-import axios from 'axios';
-import { RefreshCw, ImageIcon, Users, Sparkles, Zap } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { ImageCard } from "../components/ImageCard";
+import { Loader } from "../components/Loader";
+import { Navbar } from "../components/Navbar";
+import { AnimatedGroup } from "../components/ui/animated-group";
+import { useAuth } from "../hooks/useAuth";
+import axios from "axios";
+import { ImageIcon, Sparkles} from "lucide-react";
+import { Link } from "react-router-dom";
 
-const Home = () => {
+export const Home = () => {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
   const { auth } = useAuth();
 
+    const from = location.state?.from?.pathname || '/home';
   const fetchImages = async () => {
     try {
       setError(null);
       const response = await axios.get(
-        'https://promptvision.onrender.com/api/images',
+        // 'https://promptvision.onrender.com/api/images',
+        "http://localhost:8000/api/images",
         {
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           withCredentials: true,
         }
       );
-      
+
       setImages(response.data.data.images || []);
     } catch (err) {
-      console.error('Error fetching images:', err);
-      setError('Failed to load community images. Please try again.');
+      console.error("Error fetching images:", err);
+      setError("Failed to load community images. Please try again.");
     } finally {
       setLoading(false);
       setRefreshing(false);
@@ -45,7 +47,7 @@ const Home = () => {
 
   const handleImageClick = (image) => {
     // You can implement a modal or detailed view here
-    console.log('Image clicked:', image);
+    console.log("Image clicked:", image);
   };
 
   useEffect(() => {
@@ -54,7 +56,7 @@ const Home = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center">
+      <div className="min-h-screen bg-linear-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center">
         <div className="text-center">
           <Loader size="lg" />
           <p className="mt-4 text-gray-600">Loading community images...</p>
@@ -65,11 +67,8 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-black relative overflow-hidden">
-      {/* Background gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900 to-black opacity-50"></div>
-      
       <Navbar />
-      
+
       {/* Main Content */}
       <div className="relative z-10 container mx-auto px-4 py-8">
         {/* Header Section */}
@@ -78,25 +77,10 @@ const Home = () => {
             <div>
               <h1 className="text-4xl md:text-5xl font-bold text-white mb-2">
                 Community
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+                <span className="block text-transparent bg-clip-text bg-linear-to-r from-red-400 to-orange-400">
                   Gallery
                 </span>
               </h1>
-              <p className="text-xl text-white/80">Discover amazing AI-generated artwork from our community</p>
-            </div>
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2 text-sm text-white/70 bg-white/5 backdrop-blur-sm rounded-full px-4 py-2 border border-white/10">
-                <Users className="w-4 h-4" />
-                <span>{images.length} shared images</span>
-              </div>
-              <button
-                onClick={handleRefresh}
-                disabled={refreshing}
-                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg hover:from-purple-700 hover:to-blue-700 disabled:opacity-50 transition-all duration-300 backdrop-blur-sm border border-white/20"
-              >
-                <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
-                <span>{refreshing ? 'Refreshing...' : 'Refresh'}</span>
-              </button>
             </div>
           </div>
         </AnimatedGroup>
@@ -104,15 +88,27 @@ const Home = () => {
           <AnimatedGroup preset="blur-slide" className="text-center py-12">
             <div className="bg-red-500/10 backdrop-blur-sm border border-red-500/20 rounded-2xl p-8 max-w-md mx-auto">
               <div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                <svg
+                  className="w-8 h-8 text-red-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
+                  />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-white mb-2">Oops! Something went wrong</h3>
+              <h3 className="text-xl font-semibold text-white mb-2">
+                Oops! Something went wrong
+              </h3>
               <p className="text-red-400 mb-6">{error}</p>
               <button
                 onClick={handleRefresh}
-                className="px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg hover:from-red-700 hover:to-red-800 transition-all duration-300"
+                className="px-6 py-3 bg-linear-to-r from-red-600 to-red-700 text-white rounded-lg hover:from-red-700 hover:to-red-800 transition-all duration-300"
               >
                 Try Again
               </button>
@@ -121,16 +117,19 @@ const Home = () => {
         ) : images.length === 0 ? (
           <AnimatedGroup preset="blur-slide" className="text-center py-12">
             <div className="bg-white/5 backdrop-blur-sm rounded-2xl shadow-xl p-12 max-w-md mx-auto border border-white/10">
-              <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-linear-to-r from-yellow-500 to-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
                 <ImageIcon className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-2xl font-semibold text-white mb-2">No Images Yet</h3>
+              <h3 className="text-2xl font-semibold text-white mb-2">
+                No Images Yet
+              </h3>
               <p className="text-white/70 mb-6">
-                Be the first to share your AI-generated artwork with the community!
+                Be the first to share your AI-generated artwork with the
+                community!
               </p>
               <Link
                 to="/create"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-300"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-white/80 text-black rounded-lg hover:bg-white transition-all duration-300"
               >
                 <Sparkles className="w-5 h-5" />
                 <span>Create Your First Art</span>
@@ -139,69 +138,20 @@ const Home = () => {
           </AnimatedGroup>
         ) : (
           <>
-            {/* Stats */}
-            <AnimatedGroup preset="blur-slide" className="mb-8">
-              <div className="bg-white/5 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-white/10">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                  <div className="text-center group">
-                    <div className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400 mb-2 group-hover:scale-110 transition-transform duration-300">
-                      {images.length}
-                    </div>
-                    <div className="text-white/70 flex items-center justify-center gap-2">
-                      <ImageIcon className="w-4 h-4" />
-                      <span>Total Images</span>
-                    </div>
-                  </div>
-                  <div className="text-center group">
-                    <div className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400 mb-2 group-hover:scale-110 transition-transform duration-300">
-                      {new Set(images.map(img => img.createdBy?._id)).size}
-                    </div>
-                    <div className="text-white/70 flex items-center justify-center gap-2">
-                      <Users className="w-4 h-4" />
-                      <span>Active Creators</span>
-                    </div>
-                  </div>
-                  <div className="text-center group">
-                    <div className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-400 mb-2 group-hover:scale-110 transition-transform duration-300">
-                      {new Set(images.map(img => img.style)).size}
-                    </div>
-                    <div className="text-white/70 flex items-center justify-center gap-2">
-                      <Zap className="w-4 h-4" />
-                      <span>Art Styles</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </AnimatedGroup>
-
             {/* Image Grid */}
-            <AnimatedGroup preset="blur-slide" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <AnimatedGroup
+              preset="blur-slide"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+            >
               {images.map((image, index) => (
                 <div key={image._id || index} className="group">
-                  <ImageCard
-                    image={image}
-                    onImageClick={handleImageClick}
-                  />
+                  <ImageCard image={image} onImageClick={handleImageClick} />
                 </div>
               ))}
             </AnimatedGroup>
-
-            {/* Load More Button */}
-            {images.length > 0 && (
-              <AnimatedGroup preset="blur-slide" className="text-center mt-12">
-                <button
-                  onClick={handleRefresh}
-                  className="px-8 py-4 bg-white/5 backdrop-blur-sm text-white border border-white/20 rounded-xl hover:bg-white/10 transition-all duration-300 hover:border-white/30"
-                >
-                  Load More Images
-                </button>
-              </AnimatedGroup>
-            )}
           </>
         )}
       </div>
     </div>
   );
 };
-
-export default Home;

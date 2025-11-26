@@ -1,15 +1,17 @@
-import React from "react";
-import { HeroSection, Footer, Features, Banner } from "../components";
+import React from 'react'
 
-function Landing() {
+import {Hero,Feature,DragCard,Testimonials,Banner,Footer} from '../components'
+import { GridPattern } from '../components/ui/GridPattern';
+
+export function Landing() {
   return (
-    <>
-      <HeroSection />
-      <Features />
+    <GridPattern>
+      <Hero/>
+      <Feature />
+      <DragCard />
+      <Testimonials />
       <Banner />
       <Footer />
-    </>
-  );
+    </GridPattern>
+  )
 }
-
-export default Landing;

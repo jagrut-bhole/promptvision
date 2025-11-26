@@ -6,8 +6,9 @@ import { AnimatedGroup } from "../components/ui/animated-group";
 import axios from "axios";
 import { useAuth } from "../hooks/useAuth";
 import { Eye, EyeOff, Mail, Lock, ArrowRight, Sparkles } from "lucide-react";
+import { GridPattern } from "../components/ui/GridPattern";
 
-const Login = () => {
+export const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -32,7 +33,8 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "https://promptvision.onrender.com/api/auth/login",
+        // "https://promptvision.onrender.com/api/auth/login",
+        "http://localhost:8000/api/auth/login",
         formData,
         {
           headers: {
@@ -41,158 +43,153 @@ const Login = () => {
           withCredentials: true,
         }
       );
-      
+
       console.log("Login response:", response.data);
-      
+
       // Use the AuthContext login function
       authLogin(
-        { 
+        {
           accessToken: response.data.data.accessToken,
-          refreshToken: response.data.data.refreshToken 
+          refreshToken: response.data.data.refreshToken,
         },
         response.data.data.user
       );
     } catch (err) {
       console.error("Login error:", err);
-      setError(err.response?.data?.message || "Login failed. Please try again.");
+      setError(
+        err.response?.data?.message || "Login failed. Please try again."
+      );
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-black relative overflow-hidden flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      {/* Background gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900 to-black opacity-50"></div>
-      
-      <div className="relative z-10 max-w-md w-full space-y-8">
-        {/* Header */}
-        <AnimatedGroup preset="blur-slide" className="text-center">
-          <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Sparkles className="w-8 h-8 text-white" />
-          </div>
-          <h2 className="text-4xl font-bold text-white mb-2">
-            Welcome
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">
-              Back
-            </span>
-          </h2>
-          <p className="text-white/80">
-            Sign in to your account to continue creating
-          </p>
-        </AnimatedGroup>
+    <GridPattern>
+      <div className="min-h-screen relative overflow-hidden flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        {/* Background linear overlay */}
+        <div className="absolute inset-0 opacity-50"></div>
 
-        {/* Form */}
-        <AnimatedGroup preset="blur-slide">
-          <div className="bg-white/5 backdrop-blur-sm py-8 px-6 shadow-2xl rounded-2xl border border-white/10">
-            <form className="space-y-6" onSubmit={handleSubmit}>
-              {error && (
-                <div className="bg-red-500/10 backdrop-blur-sm border border-red-500/20 rounded-lg p-4">
-                  <p className="text-red-400 text-sm">{error}</p>
-                </div>
-              )}
+        <div className="relative z-10 max-w-md w-full space-y-8">
+          {/* Header */}
+          <AnimatedGroup preset="blur-slide" className="text-center">
+            <h2 className="text-4xl font-bold text-white mb-2">
+              Welcome Back
+            </h2>
+            <p className="text-white/80">
+              Sign in to your account to continue creating
+            </p>
+          </AnimatedGroup>
 
-              <div>
-                <label
-                  htmlFor="email"
-                  className="text-sm font-medium text-white/90 mb-2 flex items-center gap-2"
-                >
-                  <Mail className="w-4 h-4" />
-                  Email address
-                </label>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 bg-white/5 backdrop-blur-sm border border-white/20 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-white placeholder-white/50 transition-all duration-300 hover:bg-white/10"
-                  placeholder="Enter your email"
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="password"
-                  className="text-sm font-medium text-white/90 mb-2 flex items-center gap-2"
-                >
-                  <Lock className="w-4 h-4" />
-                  Password
-                </label>
-                <div className="relative">
-                  <input
-                    id="password"
-                    name="password"
-                    type={showPassword ? "text" : "password"}
-                    autoComplete="current-password"
-                    required
-                    value={formData.password}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 pr-12 bg-white/5 backdrop-blur-sm border border-white/20 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-white placeholder-white/50 transition-all duration-300 hover:bg-white/10"
-                    placeholder="Enter your password"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                  >
-                    {showPassword ? (
-                      <EyeOff className="h-5 w-5 text-white/50 hover:text-white/80 transition-colors" />
-                    ) : (
-                      <Eye className="h-5 w-5 text-white/50 hover:text-white/80 transition-colors" />
-                    )}
-                  </button>
-                </div>
-              </div>
-
-              <Button
-                type="submit"
-                disabled={loading}
-                className="w-full py-3 text-lg font-semibold bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 disabled:opacity-50 transition-all duration-300 backdrop-blur-sm border border-white/20"
-              >
-                {loading ? (
-                  <>
-                    <Loader size="sm" />
-                    <span className="ml-2">Signing in...</span>
-                  </>
-                ) : (
-                  <>
-                    <span>Sign in</span>
-                    <ArrowRight className="w-5 h-5 ml-2" />
-                  </>
+          {/* Form */}
+          <AnimatedGroup preset="blur-slide">
+            <div className="bg-black/30 backdrop-blur-sm py-8 px-6 shadow-2xl rounded-2xl border border-white/10">
+              <form className="space-y-6" onSubmit={handleSubmit}>
+                {error && (
+                  <div className="bg-red-500/10 backdrop-blur-sm border border-red-500/20 rounded-lg p-4">
+                    <p className="text-red-400 text-sm">{error}</p>
+                  </div>
                 )}
-              </Button>
-            </form>
 
-            <div className="mt-6 text-center">
-              <p className="text-sm text-white/70">
-                Don't have an account?{" "}
-                <Link
-                  to="/register"
-                  className="font-medium text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400 hover:from-purple-300 hover:to-blue-300 transition-all duration-300"
+                <div>
+                  <label
+                    htmlFor="email"
+                    className="text-sm font-medium text-white/90 mb-2 flex items-center gap-2"
+                  >
+                    <Mail className="w-4 h-4" />
+                    Email address
+                  </label>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    autoComplete="email"
+                    required
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 bg-black/20cl backdrop-blur-sm border border-white/20 rounded-lg focus:ring-2  focus:border-transparent text-white placeholder-white/50 transition-all duration-300 hover:bg-white/10"
+                    placeholder="Enter your email"
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="password"
+                    className="text-sm font-medium text-white/90 mb-2 flex items-center gap-2"
+                  >
+                    <Lock className="w-4 h-4" />
+                    Password
+                  </label>
+                  <div className="relative">
+                    <input
+                      id="password"
+                      name="password"
+                      type={showPassword ? "text" : "password"}
+                      autoComplete="current-password"
+                      required
+                      value={formData.password}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 pr-12 bg-black/20 backdrop-blur-sm border border-white/20 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-white placeholder-white/50 transition-all duration-300 hover:bg-white/10"
+                      placeholder="Enter your password"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                    >
+                      {showPassword ? (
+                        <EyeOff className="h-5 w-5 text-white/50 hover:text-white/80 transition-colors" />
+                      ) : (
+                        <Eye className="h-5 w-5 text-white/50 hover:text-white/80 transition-colors" />
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                <Button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full py-3 text-lg font-semibold text-black rounded-xl bg-white disabled:opacity-50 transition-all duration-300 backdrop-blur-sm border border-white/20"
                 >
-                  Sign up here
-                </Link>
-              </p>
-            </div>
-          </div>
-        </AnimatedGroup>
+                  {loading ? (
+                    <>
+                      <Loader size="sm" />
+                      <span className="ml-2">Signing in...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>Sign in</span>
+                      <ArrowRight className="w-5 h-5 ml-2" />
+                    </>
+                  )}
+                </Button>
+              </form>
 
-        {/* Back to Home */}
-        <AnimatedGroup preset="blur-slide" className="text-center">
-          <Link
-            to="/"
-            className="text-sm text-white/70 hover:text-white transition-colors flex items-center justify-center gap-2"
-          >
-            <ArrowRight className="w-4 h-4 rotate-180" />
-            Back to home
-          </Link>
-        </AnimatedGroup>
+              <div className="mt-6 text-center">
+                <p className="text-sm text-white/70">
+                  Don&apos;t have an account?{" "}
+                  <Link
+                    to="/register"
+                    className="font-medium text-white bg-clip-text transition-all duration-300">
+                    Sign up here
+                  </Link>
+                </p>
+              </div>
+            </div>
+          </AnimatedGroup>
+
+          {/* Back to Home */}
+          <AnimatedGroup preset="blur-slide" className="text-center">
+            <Link
+              to="/"
+              className="text-sm text-white/70 hover:text-white transition-colors flex items-center justify-center gap-2"
+            >
+              <ArrowRight className="w-4 h-4 rotate-180" />
+              Back to home
+            </Link>
+          </AnimatedGroup>
+        </div>
       </div>
-    </div>
+    </GridPattern>
   );
 };
-
-export default Login;
