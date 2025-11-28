@@ -33,7 +33,7 @@ const register = asyncHandler(async (req, res) => {
   //set cookie
   const { fullName, username, email, password } = req.body;
 
-  console.log("Username:", username,"FullName:", fullName,":Email:", email, "Password:", password, ": @", new Date().toISOString());
+  // console.log("Username:", username,"FullName:", fullName,":Email:", email, "Password:", password, ": @", new Date().toISOString());
 
   if (
     [username, email, password, fullName].some(
@@ -48,7 +48,7 @@ const register = asyncHandler(async (req, res) => {
   });
 
   if (existedUser) {
-    throw new apiError("400", "User credentials already exists");
+    throw new apiError("409", "User with email or username already exists, Kindly login with it...");
   }
 
   const user = await User.create({
@@ -58,13 +58,13 @@ const register = asyncHandler(async (req, res) => {
     fullName,
   });
 
-  console.log("User: ",user)
+  // console.log("User: ",user);
 
   const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
     user._id
   );
 
-  console.log("AccessToken: ",accessToken ," : RefreshToken: ", refreshToken)
+  // console.log("AccessToken: ",accessToken ," : RefreshToken: ", refreshToken)
 
   const createdUser = await User.findById(user?._id).select(
     "-password -refreshToken"
@@ -94,7 +94,7 @@ const login = asyncHandler(async (req, res) => {
 
   const { email, password } = req.body;
 
-  console.log(":Email:", email, "Password:", password, ": @", new Date().toISOString());
+  // console.log(":Email:", email, "Password:", password, ": @", new Date().toISOString());
 
   if (!email || !password) {
     throw new apiError(400, "User Not found");
@@ -116,13 +116,13 @@ const login = asyncHandler(async (req, res) => {
     userCheck._id
   );
 
-  console.log(":AccessToken:", accessToken, "RefreshToken:", refreshToken, ": @", new Date().toISOString());
+  // console.log(":AccessToken:", accessToken, "RefreshToken:", refreshToken, ": @", new Date().toISOString());
 
   const loggedInUser = await User.findById(userCheck._id).select(
     "-password -refreshToken"
   );
 
-    console.log("Logged In User:", loggedInUser,": @", new Date().toISOString());
+    // console.log("Logged In User:", loggedInUser,": @", new Date().toISOString());
 
   return res
     .status(200)

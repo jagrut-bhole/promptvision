@@ -5,8 +5,9 @@ import { Navbar } from "../components/Navbar";
 import { AnimatedGroup } from "../components/ui/animated-group";
 import { useAuth } from "../hooks/useAuth";
 import axios from "axios";
-import { ImageIcon, Sparkles} from "lucide-react";
+import { Image, ImageIcon, Sparkles} from "lucide-react";
 import { Link } from "react-router-dom";
+import { GridPattern } from "../components/ui/GridPattern";
 
 export const Home = () => {
   const [images, setImages] = useState([]);
@@ -45,10 +46,6 @@ export const Home = () => {
     await fetchImages();
   };
 
-  const handleImageClick = (image) => {
-    // You can implement a modal or detailed view here
-    console.log("Image clicked:", image);
-  };
 
   useEffect(() => {
     fetchImages();
@@ -56,7 +53,7 @@ export const Home = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-linear-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="text-center">
           <Loader size="lg" />
           <p className="mt-4 text-gray-600">Loading community images...</p>
@@ -66,7 +63,8 @@ export const Home = () => {
   }
 
   return (
-    <div className="min-h-screen bg-black relative overflow-hidden">
+    <GridPattern>
+      <div className="min-h-screen relative overflow-hidden">
       <Navbar />
 
       {/* Main Content */}
@@ -145,7 +143,7 @@ export const Home = () => {
             >
               {images.map((image, index) => (
                 <div key={image._id || index} className="group">
-                  <ImageCard image={image} onImageClick={handleImageClick} />
+                  <ImageCard image={image} />
                 </div>
               ))}
             </AnimatedGroup>
@@ -153,5 +151,6 @@ export const Home = () => {
         )}
       </div>
     </div>
+    </GridPattern>
   );
 };

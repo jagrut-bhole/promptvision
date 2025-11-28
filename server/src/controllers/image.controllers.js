@@ -21,7 +21,7 @@ const generateImage = asyncHandler(async (req, res) => {
 
   const imageUrl = `https://pollinations.ai/p/${encodeURIComponent(prompt)}?seed=${seed}&width=1024&height=1024&model=${model}&nologo=true`;
 
-  console.log("Image URL: ",imageUrl);
+  // console.log("Image URL: ",imageUrl);
 
   return res
     .status(200)

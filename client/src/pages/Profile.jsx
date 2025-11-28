@@ -64,11 +64,8 @@ export const Profile = () => {
   if (loading) {
     return (
       <GridPattern>
-        <div className="min-h-screen relative overflow-hidden flex items-center justify-center">
+        <div className="min-h-screen relative bg-black overflow-hidden flex items-center justify-center">
           <div className="relative z-10 text-center">
-            <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
-              <User className="w-8 h-8 text-white" />
-            </div>
             <Loader size="lg" />
             <p className="mt-4 text-white/80">Loading your profile...</p>
           </div>
@@ -99,7 +96,7 @@ export const Profile = () => {
           {/* User Info */}
           {user && (
             <AnimatedGroup preset="blur-slide" className="mb-8">
-              <div className="bg-white/5 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-white/10">
+              <div className="bg-black/90 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-white/10">
                 <div className="flex ml-3 items-center gap-6">
                   <div className="flex-1">
                     <h2 className="text-2xl font-bold text-white mb-1">
@@ -153,7 +150,7 @@ export const Profile = () => {
             </AnimatedGroup>
           ) : images.length === 0 ? (
             <AnimatedGroup preset="blur-slide" className="text-center py-12">
-              <div className="bg-white/5 backdrop-blur-sm rounded-2xl shadow-xl p-12 max-w-md mx-auto border border-white/10">
+              <div className="bg-black/90 backdrop-blur-sm rounded-2xl shadow-xl p-12 max-w-md mx-auto border border-white/10">
                 <div className="w-16 h-16 bg-linear-to-r from-yellow-500 to-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
                   <ImageIcon className="w-8 h-8 text-white" />
                 </div>

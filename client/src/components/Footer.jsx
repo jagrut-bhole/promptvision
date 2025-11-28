@@ -1,5 +1,5 @@
 import React from "react";
-import { Twitter, Github, Instagram } from "lucide-react";
+import { Twitter, Github, Instagram, Target } from "lucide-react";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -20,15 +20,13 @@ export function Footer() {
   };
 
   const socialLinks = [
-    { icon: <Twitter className="w-5 h-5" />, href: "https://x.com/JagrutBhol2820", label: "Twitter" },
+    { icon: <Twitter className="w-5 h-5" />, href: "https://x.com/JagrutBhol2820", label: "Twitter" ,newTab:"_blank"},
     { icon: <Github className="w-5 h-5" />, href: "https://github.com/jagrut-bhole", label: "GitHub" },
     { icon: <Instagram className="w-5 h-5" />, href: "https://instagram.com/jagrutbhole", label: "GitHub" },
   ];
 
   return (
     <footer className="bg-black relative overflow-hidden">
-      {/* Background linear overlay */}
-      <div className="absolute inset-0 bg-linear-to-t from-black via-gray-900 to-black opacity-50"></div>
       
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-20">
@@ -83,6 +81,7 @@ export function Footer() {
                 <li key={index}>
                   <a
                     href={link.href}
+                    target={link.newTab}
                     className="text-white/70 hover:text-white transition-colors duration-300"
                   >
                     {link.label}

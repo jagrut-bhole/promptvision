@@ -12,9 +12,6 @@ import {
   Mail,
   Lock,
   ArrowRight,
-  SquareUserRound,
-  LogIn,
-  Grid,
 } from "lucide-react";
 import { GridPattern } from "../components/ui/GridPattern";
 
@@ -65,7 +62,7 @@ export const Register = () => {
         }
       );
 
-      console.log("Register response:", response.data);
+      // console.log("Register response:", response.data);
 
       // Use the AuthContext login function
       authLogin(

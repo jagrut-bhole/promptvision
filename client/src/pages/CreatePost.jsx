@@ -63,7 +63,7 @@ export const CreatePost = () => {
         }
       );
 
-      console.log(response.data);
+      // console.log(response.data);
 
       // Set image loading state to true before setting the image URL
       setIsImageLoading(true);
@@ -165,7 +165,7 @@ export const CreatePost = () => {
         <Navbar />
 
         <div className="relative z-10 container mx-auto px-4 py-8 max-w-4xl">
-          <div className="bg-white/5 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-white/10">
+          <div className="bg-black-80 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-white/10">
             {/* Header */}
             <AnimatedGroup preset="blur-slide" className="text-center mb-8">
               <h1 className="text-4xl md:text-5xl font-bold text-white mb-2">

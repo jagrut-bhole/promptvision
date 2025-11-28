@@ -17,6 +17,7 @@ const userSchema = new mongoose.Schema({
     unique: true,
     trim: true,
     lowercase: true,
+    index: true,
     match: [/.+\@.+\..+/, "Please enter a valid Email Address"],
   },
   password: {
@@ -86,5 +87,10 @@ userSchema.methods.generateRefreshToken = function () {
     }
   );
 };
+
+userSchema.index({
+  email: 1,
+  username: 1,
+});
 
 export const User = mongoose.model("User", userSchema);

@@ -5,7 +5,7 @@ import { Loader } from "../components/Loader";
 import { AnimatedGroup } from "../components/ui/animated-group";
 import axios from "axios";
 import { useAuth } from "../hooks/useAuth";
-import { Eye, EyeOff, Mail, Lock, ArrowRight, Sparkles } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, ArrowRight } from "lucide-react";
 import { GridPattern } from "../components/ui/GridPattern";
 
 export const Login = () => {
@@ -44,7 +44,7 @@ export const Login = () => {
         }
       );
 
-      console.log("Login response:", response.data);
+      // console.log("Login response:", response.data);
 
       // Use the AuthContext login function
       authLogin(
