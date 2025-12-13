@@ -33,7 +33,7 @@ const register = asyncHandler(async (req, res) => {
   //set cookie
   const { fullName, username, email, password } = req.body;
 
-  // console.log("Username:", username,"FullName:", fullName,":Email:", email, "Password:", password, ": @", new Date().toISOString());
+  console.log("Username:", username,"FullName:", fullName,":Email:", email, "Password:", password, ": @", new Date().toISOString());
 
   if (
     [username, email, password, fullName].some(

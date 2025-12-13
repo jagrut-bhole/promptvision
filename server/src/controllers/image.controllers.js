@@ -19,9 +19,10 @@ const generateImage = asyncHandler(async (req, res) => {
 
   const seed = randomSeed();
 
-  const imageUrl = `https://pollinations.ai/p/${encodeURIComponent(prompt)}?seed=${seed}&width=1024&height=1024&model=${model}&nologo=true`;
+  // const imageUrl = `https://pollinations.ai/p/${encodeURIComponent(prompt)}?seed=${seed}&width=1024&height=1024&model=${model}&nologo=true`;
+  const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=1024&height=1024&model=flux&nologo=true`;
 
-  // console.log("Image URL: ",imageUrl);
+  console.log("Image URL: ",imageUrl);
 
   return res
     .status(200)

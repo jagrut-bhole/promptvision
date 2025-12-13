@@ -114,7 +114,7 @@ export const Home = () => {
           </AnimatedGroup>
         ) : images.length === 0 ? (
           <AnimatedGroup preset="blur-slide" className="text-center py-12">
-            <div className="bg-white/5 backdrop-blur-sm rounded-2xl shadow-xl p-12 max-w-md mx-auto border border-white/10">
+            <div className="bg-black/40 backdrop-blur-sm rounded-2xl shadow-xl p-12 max-w-md mx-auto border border-white/10">
               <div className="w-16 h-16 bg-linear-to-r from-yellow-500 to-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
                 <ImageIcon className="w-8 h-8 text-white" />
               </div>
