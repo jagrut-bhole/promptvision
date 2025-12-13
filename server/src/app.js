@@ -12,6 +12,8 @@ const app = express();
 
 const allowedOrigins = [
   'http://localhost:5173',
+  'https://promptvision.jagrut.me',
+  'https://promptvision.vercel.app',
   'https://promptvision.onrender.com'
 ];
 
