@@ -55,17 +55,3 @@ function App() {
 
 export default App;
 
-// function App() {
-//   return (
-//     <Router>
-//       <Routes>
-//         <Route path="/" element={<Landing />} />
-//         <Route path="/login" element={<Login />} />
-//         <Route path="/register" element={<Register />} />
-//         <Route path="/home" element={<Home />} />
-//         <Route path="/create" element={<CreatePost />} />
-//         <Route path="/profile" element={<Profile />} />
-//       </Routes>
-//     </Router>
-//   );
-// }
