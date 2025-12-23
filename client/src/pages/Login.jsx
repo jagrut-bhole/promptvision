@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Button } from "../components/ui/button";
 import { Loader } from "../components/Loader";
 import { AnimatedGroup } from "../components/ui/animated-group";
-import axios from "axios";
+import api from "../lib/api";
 import { useAuth } from "../hooks/useAuth";
 import { Eye, EyeOff, Mail, Lock, ArrowRight } from "lucide-react";
 import { GridPattern } from "../components/ui/GridPattern";
@@ -32,19 +32,7 @@ export const Login = () => {
     setError("");
 
     try {
-      const response = await axios.post(
-        "https://promptvision.onrender.com/api/auth/login",
-        // "http://localhost:8000/api/auth/login",
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
-
-      // console.log("Login response:", response.data);
+      const response = await api.post('/auth/login', formData);
 
       // Use the AuthContext login function
       authLogin(

@@ -3,6 +3,8 @@ import { User } from "../models/user.models.js";
 import { apiError } from "../utils/apiError.js";
 import { apiResponse } from "../utils/apiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
+import { POLLINATION_AI_API_KEY } from "../constants.js";
+import axios from "axios";
 
 const randomSeed = () => {
   return Math.floor(Math.random() * 1000000);
@@ -11,22 +13,41 @@ const randomSeed = () => {
 const generateImage = asyncHandler(async (req, res) => {
   const { prompt } = req.body;
 
+  console.log("Prompt: ",prompt);
+
   if (!prompt) {
     throw new apiError("Please Provide the Prompt!!");
   }
 
-  const model = 'flux';
-
   const seed = randomSeed();
 
-  // const imageUrl = `https://pollinations.ai/p/${encodeURIComponent(prompt)}?seed=${seed}&width=1024&height=1024&model=${model}&nologo=true`;
-  const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=1024&height=1024&model=flux&nologo=true`;
+  // Build URL with query parameters
+  // The Pollinations AI URL itself IS the image - no need to fetch it
+  const baseUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}`;
+  const params = new URLSearchParams({
+    model: "flux",
+    width: "1024",
+    height: "1024",
+    seed: seed.toString(),
+    nologo: "true",
+  });
 
-  console.log("Image URL: ",imageUrl);
+  const imageUrl = `${baseUrl}?${params.toString()}`;
 
-  return res
-    .status(200)
-    .json(new apiResponse(200, "Image Generated Successfully!!", { imageUrl }));
+  try {
+    // Just return the URL - the frontend will load it directly
+    return res
+      .status(200)
+      .json(
+        new apiResponse(200, "Image Generated Successfully!!", { imageUrl })
+      );
+  } catch (error) {
+    console.error(
+      "Image generation error:",
+      error.response?.data || error.message
+    );
+    throw new apiError("Image Generation Failed!!");
+  }
 });
 
 const shareImage = asyncHandler(async (req, res) => {
@@ -64,7 +85,9 @@ const getCommunityImages = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .json(new apiResponse(200, "Community images fetched successfully!", { images }));
+    .json(
+      new apiResponse(200, "Community images fetched successfully!", { images })
+    );
 });
 
 const getUserImages = asyncHandler(async (req, res) => {
@@ -76,7 +99,9 @@ const getUserImages = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .json(new apiResponse(200, "User images fetched successfully!", { images }));
+    .json(
+      new apiResponse(200, "User images fetched successfully!", { images })
+    );
 });
 
 export { generateImage, shareImage, getCommunityImages, getUserImages };

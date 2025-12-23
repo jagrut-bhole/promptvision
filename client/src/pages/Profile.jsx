@@ -5,7 +5,7 @@ import { Loader } from "../components/Loader";
 import { Navbar } from "../components/Navbar";
 import { AnimatedGroup } from "../components/ui/animated-group";
 import { useAuth } from "../hooks/useAuth";
-import axios from "axios";
+import api from "../lib/api";
 import { ImageIcon, User, Sparkles } from "lucide-react";
 
 import { GridPattern } from "../components/ui/GridPattern";
@@ -25,17 +25,7 @@ export const Profile = () => {
         throw new Error("User not found");
       }
 
-      const response = await axios.get(
-        `https://promptvision.onrender.com/api/images/user/${user._id}`,
-        // `http://localhost:8000/api/images/user/${user._id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${auth.accessToken}`,
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
+      const response = await api.get(`/images/user/${user._id}`);
 
       setImages(response.data.data.images || []);
     } catch (err) {
@@ -81,17 +71,6 @@ export const Profile = () => {
 
         {/* Main Content */}
         <div className="relative z-10 container mx-auto px-4 py-8">
-          {/* Header Section */}
-          <AnimatedGroup preset="blur-slide" className="mb-8">
-            <div className="flex items-center justify-between mb-6">
-              <div>
-                <h1 className="text-4xl md:text-5xl font-bold text-white mb-2">
-                  Profile
-                </h1>
-                {/* <p className="text-xl text-white/80">Manage your shared artwork and profile settings</p> */}
-              </div>
-            </div>
-          </AnimatedGroup>
 
           {/* User Info */}
           {user && (

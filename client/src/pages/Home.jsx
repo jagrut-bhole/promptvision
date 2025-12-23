@@ -3,8 +3,7 @@ import { ImageCard } from "../components/ImageCard";
 import { Loader } from "../components/Loader";
 import { Navbar } from "../components/Navbar";
 import { AnimatedGroup } from "../components/ui/animated-group";
-import { useAuth } from "../hooks/useAuth";
-import axios from "axios";
+import api from "../lib/api";
 import { Image, ImageIcon, Sparkles} from "lucide-react";
 import { Link } from "react-router-dom";
 import { GridPattern } from "../components/ui/GridPattern";
@@ -14,22 +13,12 @@ export const Home = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
-  const { auth } = useAuth();
 
-    const from = location.state?.from?.pathname || '/home';
+  const from = location.state?.from?.pathname || '/home';
   const fetchImages = async () => {
     try {
       setError(null);
-      const response = await axios.get(
-        'https://promptvision.onrender.com/api/images',
-        // "http://localhost:8000/api/images",
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
+      const response = await api.get('/images');
 
       setImages(response.data.data.images || []);
     } catch (err) {

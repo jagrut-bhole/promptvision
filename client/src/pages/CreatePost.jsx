@@ -3,12 +3,10 @@ import { Button } from "../components/ui/button";
 import { Loader } from "../components/Loader";
 import { Navbar } from "../components/Navbar";
 import { AnimatedGroup } from "../components/ui/animated-group";
-import { useAuth } from "../hooks/useAuth";
-import axios from "axios";
+import api from "../lib/api";
 import { Sparkles, Palette, Wand2, Download } from "lucide-react";
 import { GridPattern } from "../components/ui/GridPattern";
 import { ToastContainer } from "../components/Toast";
-
 import { LoaderPost } from "../components/Loader";
 
 export const CreatePost = () => {
@@ -20,7 +18,6 @@ export const CreatePost = () => {
   const [isSharing, setIsSharing] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   const [toasts, setToasts] = useState([]);
-  const { auth } = useAuth();
 
   const addToast = (message, type = 'success', duration = 3000) => {
     const id = Date.now();
@@ -50,18 +47,7 @@ export const CreatePost = () => {
     setIsImageLoading(false);
 
     try {
-      const response = await axios.post(
-        // 'https://promptvision.onrender.com/api/images/generate',
-        "http://localhost:8000/api/images/generate",
-        { prompt, style },
-        {
-          headers: {
-            Authorization: `Bearer ${auth.accessToken}`,
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
+      const response = await api.post('/images/generate', { prompt, style });
 
       // console.log(response.data);
 
@@ -131,22 +117,11 @@ export const CreatePost = () => {
 
     setIsSharing(true);
     try {
-      await axios.post(
-        'https://promptvision.onrender.com/api/images/share',
-        // "http://localhost:8000/api/images/share",
-        {
-          imageUrl: generatedImage,
-          prompt,
-          style,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${auth.accessToken}`,
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
+      await api.post('/images/share', {
+        imageUrl: generatedImage,
+        prompt,
+        style,
+      });
 
       addToast("🎉 Image shared with community successfully!", 'success', 4000);
     } catch (error) {
@@ -164,15 +139,15 @@ export const CreatePost = () => {
       <div className="min-h-scree relative overflow-hidden">
         <Navbar />
 
-        <div className="relative z-10 container mx-auto px-4 py-8 max-w-4xl">
+        <div className="relative z-10 container mx-auto px-4 py-8 max-w-5xl">
           <div className="bg-black-80 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-white/10">
             {/* Header */}
             <AnimatedGroup preset="blur-slide" className="text-center mb-8">
               <h1 className="text-4xl md:text-5xl font-bold text-white mb-2">
-                Create AI
-                <span className="block text-transparent bg-clip-text bg-linear-to-r from-orange-400 to-red-400">
+                Create AI <span className="block text-transparent bg-clip-text bg-linear-to-r from-orange-400 to-red-400">
                   Art
                 </span>
+                
               </h1> 
             </AnimatedGroup>
 

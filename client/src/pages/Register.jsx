@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Button } from "../components/ui/button";
 import { Loader } from "../components/Loader";
 import { AnimatedGroup } from "../components/ui/animated-group";
-import axios from "axios";
+import api from "../lib/api";
 import { useAuth } from "../hooks/useAuth";
 import {
   Eye,
@@ -50,17 +50,7 @@ export const Register = () => {
 
     try {
       const { confirmPassword: _, ...userData } = formData;
-      const response = await axios.post(
-        "https://promptvision.onrender.com/api/auth/register",
-        // "http://localhost:8000/api/auth/register",
-        userData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
+      const response = await api.post('/auth/register', userData);
 
       console.log("Register response:", response.data);
 

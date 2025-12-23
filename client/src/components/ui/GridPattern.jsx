@@ -11,7 +11,6 @@ export const GridPattern = ({children}) => {
             linear-gradient(to right, #ffffff10 1px, transparent 1px),
             linear-gradient(to bottom, #ffffff10 1px, transparent 1px)
           `,
-          backgroundSize: "30px 30px, 30px 30px",
         }}
       />
       
