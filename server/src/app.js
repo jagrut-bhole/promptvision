@@ -10,20 +10,27 @@ import { imageRouter } from "./routes/image.routes.js";
 
 const app = express();
 
-const allowedOrigins = [
-  'http://localhost:5173',
-  'https://promptvision.jagrut.me',
-  'https://promptvision.vercel.app',
-];
+// const allowedOrigins = [
+//   'http://localhost:5173',
+//   'https://promptvision.jagrut.me',
+// ];
+
+// app.use(cors({
+//   origin : function (origin,callback) {
+//     if (!origin || allowedOrigins.includes(origin)) {
+//       callback(null,true)
+//     } else {
+//       callback(new Error('Not allowed by CORS!!'));
+//     }
+//   },
+//   credentials : true
+// }));
+
+
+const corOrigin = process.env.CORS_ORIGIN;
 
 app.use(cors({
-  origin : function (origin,callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null,true)
-    } else {
-      callback(new Error('Not allowed by CORS!!'));
-    }
-  },
+  origin : corOrigin,
   credentials : true
 }));
 
