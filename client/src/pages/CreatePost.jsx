@@ -49,11 +49,9 @@ export const CreatePost = () => {
     try {
       const response = await api.post('/images/generate', { prompt, style });
 
-      // console.log(response.data);
-
-      // Set image loading state to true before setting the image URL
       setIsImageLoading(true);
       setGeneratedImage(response.data.data.imageUrl);
+      
     } catch (error) {
       console.error("Error generating image:", error);
       const errorMessage = error.response?.data?.message || "Failed to generate image. Please try again.";
@@ -63,13 +61,11 @@ export const CreatePost = () => {
   };
 
   const handleImageLoad = () => {
-    // Image has finished loading
     setIsImageLoading(false);
     setIsGenerating(false);
   };
 
   const handleImageError = () => {
-    // Handle image loading error
     setIsImageLoading(false);
     setIsGenerating(false);
     addToast("Failed to load the generated image. Please try again.", 'error', 4000);
@@ -85,7 +81,6 @@ export const CreatePost = () => {
 
     setIsDownloading(true);
     try {
-      // Fetch the image as a blob to handle cross-origin issues
       const response = await fetch(generatedImage);
       if (!response.ok) throw new Error('Failed to fetch image');
       
